@@ -1,26 +1,98 @@
 @import "tailwindcss";
 
+/* ── Cars24 Brand Palette ─────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand blue — matched from Cars24 logo mark */
+  --c24-blue:         #3836D4;
+  --c24-blue-dark:    #2B28A8;   /* hover / active */
+  --c24-blue-mid:     #5654D8;   /* softer blue for avatars */
+  --c24-blue-light:   #EEEEFF;   /* tinted panel bg / selected rows */
+  --c24-blue-mist:    #F4F4FD;   /* page / chat background */
+
+  /* Surfaces */
+  --c24-white:        #FFFFFF;
+  --c24-panel:        #FFFFFF;
+  --c24-search-bg:    #F0F0FA;
+
+  /* Borders & dividers */
+  --c24-border:       #E4E4F0;
+
+  /* Text */
+  --c24-text:         #111827;
+  --c24-secondary:    #6B7280;
+  --c24-muted:        #9CA3AF;
+
+  /* Conversation bubbles */
+  --c24-bubble-bot:   #EEEEFF;   /* Pre BI Bot — light brand blue */
+  --c24-bubble-cx:    #FFFFFF;   /* Customer — white with border  */
+  --c24-bubble-agent: #FFFBEB;   /* Human agent — warm amber tint */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html, body {
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--c24-blue-mist);
+  color: var(--c24-text);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont,
+    'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Thin scrollbar ───────────────────────────────────────────────────────── */
+::-webkit-scrollbar          { width: 4px; height: 4px; }
+::-webkit-scrollbar-track    { background: transparent; }
+::-webkit-scrollbar-thumb    { background: #C7C7E8; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #A5A5D0; }
+
+/* ── Message bubble tails ─────────────────────────────────────────────────── */
+
+.bubble-bot {
+  position: relative;
+}
+.bubble-bot::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -8px;
+  border-style: solid;
+  border-width: 8px 8px 0 0;
+  border-color: var(--c24-bubble-bot) transparent transparent transparent;
+}
+
+.bubble-cx {
+  position: relative;
+}
+.bubble-cx::after {
+  content: '';
+  position: absolute;
+  top: 0; right: -8px;
+  border-style: solid;
+  border-width: 8px 0 0 8px;
+  border-color: var(--c24-bubble-cx) transparent transparent transparent;
+}
+
+.bubble-agent {
+  position: relative;
+}
+.bubble-agent::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -8px;
+  border-style: solid;
+  border-width: 8px 8px 0 0;
+  border-color: var(--c24-bubble-agent) transparent transparent transparent;
+}
+
+/* ── Date chip ────────────────────────────────────────────────────────────── */
+.date-chip {
+  display: inline-block;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid var(--c24-border);
+  border-radius: 8px;
+  padding: 3px 12px;
+  font-size: 11.5px;
+  color: var(--c24-secondary);
+  box-shadow: 0 1px 3px rgba(56,54,212,0.06);
 }
