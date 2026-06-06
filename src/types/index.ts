@@ -1,16 +1,18 @@
 export interface Conversation {
-  id:              string
-  source:          'json' | 'sheets'
-  phone:           string
-  customerName:    string
-  archetype:       string
-  outcome:         string
-  outcomeDetail:   string
-  timestamp:       string
-  messageCount:    number
-  lastMessageText: string
-  firstMessageAt:  string
-  lastMessageAt:   string
+  id:               string
+  source:           'json' | 'sheets'
+  phone:            string
+  customerName:     string
+  archetypeKey:     string   // raw enum e.g. TRADE_IN_FOCUSED
+  archetype:        string   // formatted label e.g. "Trade-in"
+  outcome:          string   // TEST_DRIVE_BOOKED | CALLBACK_ARRANGED | DROPOFF | ''
+  outcomeDetail:    string
+  keyObservations:  string[]
+  timestamp:        string
+  messageCount:     number
+  lastMessageText:  string
+  firstMessageAt:   string
+  lastMessageAt:    string
 }
 
 export interface Message {

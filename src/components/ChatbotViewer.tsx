@@ -17,7 +17,7 @@ import type {
 const PAGE_SIZE = 50
 
 export default function ChatbotViewer() {
-  const [date, setDate]                       = useState<string>(getPreviousDayAEST)
+  const [date, setDate]                       = useState<string>(getPreviousDayAEST())
   const [search, setSearch]                   = useState('')
   const [debouncedSearch, setDebouncedSearch] = useState('')
   const [page, setPage]                       = useState(1)
@@ -56,14 +56,18 @@ export default function ChatbotViewer() {
       setTotal(data.total)
       setTotalPages(data.totalPages)
     } catch (err) {
-      setConvsError(err instanceof Error ? err.message : 'Unknown error')
+      const msg = err instanceof Error ? err.message : 'Unknown error'
+      setConvsError(msg)
       setConversations([])
     } finally {
       setIsLoadingConvs(false)
     }
   }, [date, page, debouncedSearch])
 
-  useEffect(() => { fetchConversations() }, [fetchConversations])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    fetchConversations()
+  }, [date, page, debouncedSearch])
 
   const handleDateChange = useCallback((d: string) => {
     setDate(d); setPage(1); setSearch(''); setDebouncedSearch('')

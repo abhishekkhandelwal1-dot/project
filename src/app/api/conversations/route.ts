@@ -23,6 +23,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const { conversations, total } = await getConversations(date, page, limit, search)
+
     return NextResponse.json({
       conversations,
       total,
@@ -31,9 +32,9 @@ export async function GET(request: NextRequest) {
       totalPages: Math.ceil(total / limit),
     })
   } catch (err) {
-    console.error('[GET /api/conversations]', err)
+    console.error('[API /conversations] error:', err)
     return NextResponse.json(
-      { error: 'Failed to fetch conversations from Snowflake.' },
+      { error: 'Failed to fetch conversations.' },
       { status: 500 }
     )
   }

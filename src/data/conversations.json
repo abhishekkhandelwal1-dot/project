@@ -7,7 +7,7 @@
     "outcome": "CALLBACK_ARRANGED",
     "outcome_detail": "Betty captured contact number, arranged callback for trade-in assessment, provided 3 Brisbane RAV4/CX-5 options. Conditional test drive agreed pending trade-in satisfaction.",
     "turns": 7,
-    "timestamp": "2026-05-25T11:15:25.242Z",
+    "timestamp": "2026-06-05T11:15:25.242Z",
     "conversation": [
       { "speaker": "ROB", "text": "Hey, I'm interested in one of your SUVs but I've got a car I need to trade in first. Can you give me a rough idea of what you'd give me for it before we go any further?" },
       { "speaker": "BETTY", "text": "Yes, we can help with that, but the quickest way to get a rough trade‑in estimate is through our online tool here: https://www.cars24.com.au/sell-your-car/ then when you find an SUV you like, just bring your car to the hub and we'll give you a firm value on the spot." },
@@ -33,7 +33,7 @@
     "outcome": "TEST_DRIVE_BOOKED",
     "outcome_detail": "Full booking confirmed. 2020 Toyota Corolla ZR, tomorrow 9:30am, Laverton North hub (118 Cherry Lane). Same-day pickup confirmed for cash purchase. Email capture successful.",
     "turns": 7,
-    "timestamp": "2026-05-25T11:22:00.000Z",
+    "timestamp": "2026-06-05T11:22:00.000Z",
     "conversation": [
       { "speaker": "KAREN", "text": "Hi, I'm looking to buy a car with cash this week. I don't need finance. If I like it after the test drive can I take it the same day?" },
       { "speaker": "BETTY", "text": "Yes, if you're paying cash and all paperwork and ID checks are in order, you can usually take the car home the same day after your test drive. When you've found a car you like, I can help you book a test drive for this week." },
@@ -59,7 +59,7 @@
     "outcome": "TEST_DRIVE_BOOKED",
     "outcome_detail": "Resolved stamp duty confusion by redirecting to drive-away pricing. Vik committed to Wednesday 11am test drive at Villawood hub + online deposit reservation for 2021 Kia Picanto S ($17,090 egc, NSW Sydney).",
     "turns": 10,
-    "timestamp": "2026-05-25T11:35:00.000Z",
+    "timestamp": "2026-06-05T11:35:00.000Z",
     "conversation": [
       { "speaker": "VIK", "text": "Hi, I saw the car listed for $24,000 and that's my budget, but when I added stamp duty and other fees it went way over. Can you explain the full cost I'd actually pay?" },
       { "speaker": "BETTY", "text": "Totally understand the confusion, the $24,000 you saw is just the car price, but the actual amount you pay is the Drive Away Price (DAP), which includes the car price plus stamp duty, registration, CTP insurance, transfer fee, and our service/handling fee. If you share the exact car and state you're buying in, I can explain how those charges would stack up for your case." },
@@ -91,7 +91,7 @@
     "outcome": "CALLBACK_ARRANGED",
     "outcome_detail": "Virtual test drive for 2021 RAV4 GX AWD Hybrid ($39,490, 45,467km) on Thursday 10am arranged via team callback. Delivery to Bendigo 3550 to be confirmed. Email captured: liz.robertson@hotmail.com.",
     "turns": 9,
-    "timestamp": "2026-05-25T11:50:00.000Z",
+    "timestamp": "2026-06-05T11:50:00.000Z",
     "key_observations": ["Betty contradicted inventory mid-conversation", "Recovered well after contradiction when customer pointed it out"],
     "conversation": [
       { "speaker": "LIZ", "text": "Hi, I'm in regional Victoria and can't easily get to a hub. Is delivery an option, or could I do a virtual test drive first? I'm seriously interested in one of your SUVs." },
@@ -122,7 +122,7 @@
     "outcome": "CALLBACK_ARRANGED",
     "outcome_detail": "Virtual TD booked for 2024 Kia Picanto Sport (15,520km, $18,890 egc) via team callback Tuesday 10am. Delivery to Perth 6000 to be confirmed. Repayment guidance: ~$190-220/fortnight over 5 years.",
     "turns": 8,
-    "timestamp": "2026-05-25T12:10:00.000Z",
+    "timestamp": "2026-06-05T12:10:00.000Z",
     "key_observations": ["Betty initially refused ballpark figures", "Betty then pivoted Deb to cheaper cars under $22k", "Failed to filter by Perth in first inventory pull"],
     "conversation": [
       { "speaker": "DEB", "text": "Hi, I found a car I like for around $32k. I just need to know what the fortnightly repayments would be before I book anything — that's how I work out if I can afford it." },
@@ -151,7 +151,7 @@
     "outcome": "CALLBACK_ARRANGED",
     "outcome_detail": "Betty acknowledged PPSR/logbook requirements upfront, showed 3 SUVs within criteria, arranged pre-test-drive documentation review callback for Tue/Wed morning.",
     "turns": 5,
-    "timestamp": "2026-05-25T12:30:00.000Z",
+    "timestamp": "2026-06-05T12:30:00.000Z",
     "key_observations": ["Betty immediately validated documentation requirements without deflection", "Successfully handled 'no commitment without docs' archetype"],
     "conversation": [
       { "speaker": "GAVIN", "text": "Hi, I'm interested in one of your cars but before I commit to a test drive I need to confirm it has full service history and logbooks, no accidents, and I'd want to see the PPSR. Can you confirm all that?" },
@@ -174,7 +174,7 @@
     "outcome": "CALLBACK_ARRANGED",
     "outcome_detail": "Betty held firm on $52,990 drive-away, offered Price Match Guarantee, arranged pricing team callback after James refused to initiate contact.",
     "turns": 4,
-    "timestamp": "2026-05-25T12:45:00.000Z",
+    "timestamp": "2026-06-05T12:45:00.000Z",
     "key_observations": ["Betty held firm on listed price with clear value justification", "Price Match Guarantee invoked proactively", "Fast resolution fitting the fast_decisive persona archetype"],
     "conversation": [
       { "speaker": "JAMES", "text": "Hi, I'm interested in the car but I need to confirm the price before I waste a day off work coming in. What's your absolute best price and are you flexible at all? If the number works I'll book a test drive today." },
@@ -195,7 +195,7 @@
     "outcome": "DROPOFF",
     "outcome_detail": "C2B seller correctly identified and redirected. Betty explained no-obligation inspection process, addressed margin concern honestly, provided Brisbane hub address. Megan will self-serve via website.",
     "turns": 6,
-    "timestamp": "2026-05-25T13:00:00.000Z",
+    "timestamp": "2026-06-05T13:00:00.000Z",
     "key_observations": ["Betty immediately recognised seller intent", "Betty honestly acknowledged buy/sell margin gap rather than deflecting", "DROPOFF outcome appropriate — Megan self-serves via website"],
     "conversation": [
       { "speaker": "MEGAN", "text": "Hi, I want to sell my car to you guys. How does the process work and can I get an online quote? I'm not looking to buy anything right now." },
@@ -220,7 +220,7 @@
     "outcome": "TEST_DRIVE_BOOKED",
     "outcome_detail": "Family of 4 (Sandra + husband David) booked Saturday 11am test drive at Sydney Villawood hub for 2023 Kia Sorento Sport+ 7-Seat $42,390. Details captured (phone + email).",
     "turns": 5,
-    "timestamp": "2026-05-25T13:15:00.000Z",
+    "timestamp": "2026-06-05T13:15:00.000Z",
     "key_observations": ["Betty immediately probed for budget, fuel type and year preference", "Saturday family visit with kids actively encouraged"],
     "conversation": [
       { "speaker": "SANDRA", "text": "Hi, we're a family of 4 and looking for something bigger — ideally a 7 seater with good safety. My husband and I need to both look at it. What have you got available and when could we come in together?" },
@@ -243,7 +243,7 @@
     "outcome": "TEST_DRIVE_BOOKED",
     "outcome_detail": "Test drive confirmed with Order ID 0DGI0N. 2024 Kia Sportage SX, Brisbane (Yeerongpilly hub), 26 May 1pm-2pm. Same-day invoice promised post-drive for bank finalisation.",
     "turns": 5,
-    "timestamp": "2026-05-25T13:30:00.000Z",
+    "timestamp": "2026-06-05T13:30:00.000Z",
     "key_observations": ["Betty correctly flagged no 2021 RAV4 GX in Brisbane", "External bank pre-approval respected throughout", "Actual order booking issued with Order ID 0DGI0N"],
     "conversation": [
       { "speaker": "TANVIR", "text": "Hi, I've already been pre-approved for a loan through my bank. I just need to test drive and then get an invoice so I can finalise it. How soon can I come in?" },

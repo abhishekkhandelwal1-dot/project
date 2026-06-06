@@ -18,34 +18,39 @@ const isJsonId = (id: string) => /^[a-f0-9]{24}$/.test(id)
 // ─── JSON conversation helpers ────────────────────────────────────────────────
 
 function jsonConversations(date: string, search: string): Conversation[] {
+  const allSessions = getAllSessions()
   const term = search.toLowerCase()
-  return getAllSessions()
-    .filter((s) => {
-      if (jsonDate(s.timestamp) !== date) return false
-      if (!term) return true
-      return (
-        s.persona_name.toLowerCase().includes(term) ||
-        s.archetype_label.toLowerCase().includes(term) ||
-        s.outcome.toLowerCase().includes(term)
-      )
-    })
-    .map((s) => {
-      const msgs = s.conversation
-      return {
-        id:              s.session_id,
-        source:          'json' as const,
-        phone:           s.session_id,
-        customerName:    s.persona_name,
-        archetype:       formatArchetype(s.archetype_label),
-        outcome:         s.outcome,
-        outcomeDetail:   s.outcome_detail,
-        timestamp:       s.timestamp,
-        messageCount:    msgs.length,
-        lastMessageText: msgs[msgs.length - 1]?.text ?? '',
-        firstMessageAt:  s.timestamp,
-        lastMessageAt:   s.timestamp,
-      }
-    })
+
+  const filtered = allSessions.filter((s) => {
+    const sessionDate = jsonDate(s.timestamp)
+    if (sessionDate !== date) return false
+    if (!term) return true
+    return (
+      s.persona_name.toLowerCase().includes(term) ||
+      s.archetype_label.toLowerCase().includes(term) ||
+      s.outcome.toLowerCase().includes(term)
+    )
+  })
+
+  return filtered.map((s) => {
+    const msgs = s.conversation
+    return {
+      id:              s.session_id,
+      source:          'json' as const,
+      phone:           s.session_id,
+      customerName:    s.persona_name,
+      archetypeKey:    s.archetype_label,
+      archetype:       formatArchetype(s.archetype_label),
+      outcome:         s.outcome,
+      outcomeDetail:   s.outcome_detail,
+      keyObservations: s.key_observations ?? [],
+      timestamp:       s.timestamp,
+      messageCount:    msgs.length,
+      lastMessageText: msgs[msgs.length - 1]?.text ?? '',
+      firstMessageAt:  s.timestamp,
+      lastMessageAt:   s.timestamp,
+    }
+  })
 }
 
 // ─── Unified conversation list (JSON + Sheets merged) ────────────────────────
