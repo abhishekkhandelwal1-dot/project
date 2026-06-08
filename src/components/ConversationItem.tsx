@@ -79,20 +79,20 @@ export default function ConversationItem({ conversation, isSelected, onClick }: 
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        {/* Row 1: phone + name + time */}
+        {/* Row 1: name + phone + time */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex-1 min-w-0">
-            <span
-              className="text-sm font-semibold block truncate leading-tight"
-              style={{ color: isSelected ? 'var(--c24-blue)' : 'var(--c24-text)' }}
-            >
-              {formatPhone(conversation.phone)}
-            </span>
             {customerName && (
-              <span className="text-[10px] text-gray-500 block truncate">
+              <span
+                className="text-sm font-semibold block truncate leading-tight"
+                style={{ color: isSelected ? 'var(--c24-blue)' : 'var(--c24-text)' }}
+              >
                 {customerName}
               </span>
             )}
+            <span className="text-[10px] text-gray-500 block truncate">
+              {formatPhone(conversation.phone)}
+            </span>
           </div>
           <span className="text-[11px] flex-shrink-0 tabular-nums" style={{ color: 'var(--c24-muted)' }}>
             {formatTime(timestamp)}
