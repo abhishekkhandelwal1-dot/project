@@ -1,0 +1,10 @@
+{
+  "name": "pre-bi-bot",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "env": [
+    "GSHEET_CSV_URL",
+    "GSHEET_CACHE_TTL_SECONDS"
+  ]
+}
