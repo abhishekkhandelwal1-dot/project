@@ -1,4 +1,4 @@
-import { formatTime } from '@/lib/utils'
+import { formatTime, formatPhone } from '@/lib/utils'
 import type { Conversation } from '@/types'
 
 // ─── Outcome badge ────────────────────────────────────────────────────────────
@@ -79,14 +79,19 @@ export default function ConversationItem({ conversation, isSelected, onClick }: 
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        {/* Row 1: name + time */}
+        {/* Row 1: name + phone + time */}
         <div className="flex items-center justify-between gap-2">
-          <span
-            className="text-sm font-semibold truncate leading-tight"
-            style={{ color: isSelected ? 'var(--c24-blue)' : 'var(--c24-text)' }}
-          >
-            {customerName}
-          </span>
+          <div className="flex-1 min-w-0">
+            <span
+              className="text-sm font-semibold block truncate leading-tight"
+              style={{ color: isSelected ? 'var(--c24-blue)' : 'var(--c24-text)' }}
+            >
+              {customerName}
+            </span>
+            <span className="text-[10px] text-gray-500 block truncate">
+              {formatPhone(conversation.phone)}
+            </span>
+          </div>
           <span className="text-[11px] flex-shrink-0 tabular-nums" style={{ color: 'var(--c24-muted)' }}>
             {formatTime(timestamp)}
           </span>
@@ -106,7 +111,7 @@ export default function ConversationItem({ conversation, isSelected, onClick }: 
             {conversation.source === 'json' ? 'Test' : 'Live'}
           </span>
 
-          {outcome && <OutcomeBadge outcome={outcome} />}
+          {outcome === 'TEST_DRIVE_BOOKED' && <OutcomeBadge outcome={outcome} />}
 
           {archetype && (
             <span
