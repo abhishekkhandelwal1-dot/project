@@ -46,6 +46,45 @@ const isSent     = (d: string) => d.includes('Sent')
 const isReceived = (d: string) => d.includes('Received')
 const isKnown    = (d: string) => isSent(d) || isReceived(d)
 
+// ─── Test drive confirmation parsing (for Sheets) ─────────────────────────────
+
+interface TestDriveInfo {
+  confirmed: boolean
+  date: string | null
+  orderId: string | null
+}
+
+function parseTestDriveConfirmationSheets(rows: SheetRow[]): TestDriveInfo {
+  // Look for "Sent" messages (from bot) containing test drive confirmation
+  const confirmText = rows
+    .filter((r) => isSent(r.DIRECTION))
+    .map((r) => r.MESSAGE_TEXT.toLowerCase())
+    .join(' ')
+
+  const hasTestDrive = confirmText.includes('test drive')
+  const hasConfirm = confirmText.includes('confirm') || confirmText.includes('book')
+
+  if (!hasTestDrive || !hasConfirm) {
+    return { confirmed: false, date: null, orderId: null }
+  }
+
+  // Extract date (e.g., "Monday 3pm", "Fri 15 Jun", "2026-06-15")
+  const dateMatch = confirmText.match(
+    /(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday|mon|tue|wed|thu|fri|sat|sun)[\s\d:]+|(\d{1,2})\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)|\d{4}-\d{2}-\d{2}/i
+  )
+  const date = dateMatch ? dateMatch[0] : null
+
+  // Extract order ID (e.g., "Order #12345" or "Order #ABC123")
+  const orderMatch = confirmText.match(/order\s*[#]?\s*(\w+)/)
+  const orderId = orderMatch ? orderMatch[1] : null
+
+  return {
+    confirmed: !!(date || orderId),
+    date,
+    orderId,
+  }
+}
+
 // ─── Fetch + parse ────────────────────────────────────────────────────────────
 
 async function getRows(): Promise<SheetRow[]> {
@@ -94,8 +133,8 @@ export async function getSheetConversations(
   )
 
   const map = new Map<string, {
-    phone: string; firstAt: string; lastAt: string
-    count: number; name: string; lastText: string
+    phone: string; firstAt: string; lastAt: string; firstDirection: string
+    count: number; name: string; lastText: string; rows: SheetRow[]
   }>()
 
   for (const r of dayRows) {
@@ -103,13 +142,15 @@ export async function getSheetConversations(
     const e = map.get(p)
     if (!e) {
       map.set(p, {
-        phone: p, firstAt: r.TIMESTAMP_AEST, lastAt: r.TIMESTAMP_AEST,
+        phone: p, firstAt: r.TIMESTAMP_AEST, lastAt: r.TIMESTAMP_AEST, firstDirection: r.DIRECTION,
         count: 1,
         name: isReceived(r.DIRECTION) && r.CUSTOMER_NAME ? r.CUSTOMER_NAME : '',
         lastText: r.MESSAGE_TEXT ?? '',
+        rows: [r],
       })
     } else {
       e.count++
+      e.rows.push(r)
       if (r.TIMESTAMP_AEST < e.firstAt) e.firstAt = r.TIMESTAMP_AEST
       if (r.TIMESTAMP_AEST > e.lastAt) { e.lastAt = r.TIMESTAMP_AEST; e.lastText = r.MESSAGE_TEXT ?? '' }
       if (!e.name && isReceived(r.DIRECTION) && r.CUSTOMER_NAME) e.name = r.CUSTOMER_NAME
@@ -124,22 +165,30 @@ export async function getSheetConversations(
       const name = (c.name || c.phone).toLowerCase()
       return name.includes(term) || c.phone.includes(term)
     })
-    .map((c) => ({
-      id:              c.phone,
-      source:          'sheets' as const,
-      phone:           c.phone,
-      customerName:    c.name || c.phone,
-      archetypeKey:    '',
-      archetype:       '',
-      outcome:         '',
-      outcomeDetail:   '',
-      keyObservations: [],
-      timestamp:       c.lastAt,
-      messageCount:    c.count,
-      lastMessageText: c.lastText,
-      firstMessageAt:  c.firstAt,
-      lastMessageAt:   c.lastAt,
-    }))
+    .map((c) => {
+      const direction = isReceived(c.firstDirection) ? 'inbound' : 'outbound'
+      const tdInfo = parseTestDriveConfirmationSheets(c.rows)
+      return {
+        id:                    c.phone,
+        source:                'sheets' as const,
+        phone:                 c.phone,
+        customerName:          c.name || c.phone,
+        archetypeKey:          '',
+        archetype:             '',
+        outcome:               '',
+        outcomeDetail:         '',
+        keyObservations:       [],
+        direction,
+        testDriveConfirmed:    tdInfo.confirmed,
+        testDriveDate:         tdInfo.date,
+        testDriveOrderId:      tdInfo.orderId,
+        timestamp:             c.lastAt,
+        messageCount:          c.count,
+        lastMessageText:       c.lastText,
+        firstMessageAt:        c.firstAt,
+        lastMessageAt:         c.lastAt,
+      }
+    })
 }
 
 // ─── Messages from Google Sheets ─────────────────────────────────────────────

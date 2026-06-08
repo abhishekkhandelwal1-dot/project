@@ -1,18 +1,22 @@
 export interface Conversation {
-  id:               string
-  source:           'json' | 'sheets'
-  phone:            string
-  customerName:     string
-  archetypeKey:     string   // raw enum e.g. TRADE_IN_FOCUSED
-  archetype:        string   // formatted label e.g. "Trade-in"
-  outcome:          string   // TEST_DRIVE_BOOKED | CALLBACK_ARRANGED | DROPOFF | ''
-  outcomeDetail:    string
-  keyObservations:  string[]
-  timestamp:        string
-  messageCount:     number
-  lastMessageText:  string
-  firstMessageAt:   string
-  lastMessageAt:    string
+  id:                    string
+  source:                'json' | 'sheets'
+  phone:                 string
+  customerName:          string
+  archetypeKey:          string   // raw enum e.g. TRADE_IN_FOCUSED
+  archetype:             string   // formatted label e.g. "Trade-in"
+  outcome:               string   // TEST_DRIVE_BOOKED | CALLBACK_ARRANGED | DROPOFF | ''
+  outcomeDetail:         string
+  keyObservations:       string[]
+  direction:             'inbound' | 'outbound'   // inbound = customer initiated, outbound = bot initiated
+  testDriveConfirmed:    boolean  // true only if BETTY confirmed with date + order ID
+  testDriveDate:         string | null // extracted date from confirmation
+  testDriveOrderId:      string | null // extracted order ID from confirmation
+  timestamp:             string
+  messageCount:          number
+  lastMessageText:       string
+  firstMessageAt:        string
+  lastMessageAt:         string
 }
 
 export interface Message {

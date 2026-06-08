@@ -42,7 +42,7 @@ interface Props {
 }
 
 export default function ConversationItem({ conversation, isSelected, onClick }: Props) {
-  const { customerName, timestamp, messageCount, lastMessageText, outcome, archetype } = conversation
+  const { customerName, timestamp, messageCount, lastMessageText, outcome, archetype, direction, testDriveConfirmed } = conversation
 
   const initials = customerName
     .split(' ').slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '?'
@@ -111,7 +111,19 @@ export default function ConversationItem({ conversation, isSelected, onClick }: 
             {conversation.source === 'json' ? 'Test' : 'Live'}
           </span>
 
-          {outcome === 'TEST_DRIVE_BOOKED' && <OutcomeBadge outcome={outcome} />}
+          {/* Direction badge */}
+          <span
+            className="text-[9px] font-semibold uppercase tracking-wide rounded px-1.5 py-0.5 flex-shrink-0"
+            style={
+              direction === 'inbound'
+                ? { background: '#E0F2FE', color: '#0369A1' }
+                : { background: '#F3F4F6', color: '#6B7280' }
+            }
+          >
+            {direction === 'inbound' ? '↓ Inbound' : '↑ Outbound'}
+          </span>
+
+          {testDriveConfirmed && <OutcomeBadge outcome="TEST_DRIVE_BOOKED" />}
 
           {archetype && (
             <span

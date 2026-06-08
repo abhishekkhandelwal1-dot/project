@@ -15,6 +15,54 @@ const BOT = 'BETTY'
 
 const isJsonId = (id: string) => /^[a-f0-9]{24}$/.test(id)
 
+// ─── Direction detection ──────────────────────────────────────────────────────
+
+function detectDirection(firstMessage: string): 'inbound' | 'outbound' {
+  // If first message is from bot (BETTY), it's outbound (we initiated)
+  // Otherwise, it's inbound (customer initiated)
+  return firstMessage === BOT ? 'outbound' : 'inbound'
+}
+
+// ─── Test drive confirmation parsing ───────────────────────────────────────
+
+interface TestDriveInfo {
+  confirmed: boolean
+  date: string | null
+  orderId: string | null
+}
+
+function parseTestDriveConfirmation(messages: Array<{ speaker: string; text: string }>): TestDriveInfo {
+  // Look for BETTY's message confirming test drive with date and order ID
+  const confirmText = messages
+    .filter((m) => m.speaker === BOT)
+    .map((m) => m.text.toLowerCase())
+    .join(' ')
+
+  // Pattern: "test drive" + "confirm" + (date pattern OR order pattern)
+  const hasTestDrive = confirmText.includes('test drive')
+  const hasConfirm = confirmText.includes('confirm') || confirmText.includes('book')
+
+  if (!hasTestDrive || !hasConfirm) {
+    return { confirmed: false, date: null, orderId: null }
+  }
+
+  // Extract date (e.g., "Monday 3pm", "Fri 15 Jun", "2026-06-15")
+  const dateMatch = confirmText.match(
+    /(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday|mon|tue|wed|thu|fri|sat|sun)[\s\d:]+|(\d{1,2})\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)|\d{4}-\d{2}-\d{2}/i
+  )
+  const date = dateMatch ? dateMatch[0] : null
+
+  // Extract order ID (e.g., "Order #12345" or "Order #ABC123")
+  const orderMatch = confirmText.match(/order\s*[#]?\s*(\w+)/)
+  const orderId = orderMatch ? orderMatch[1] : null
+
+  return {
+    confirmed: !!(date || orderId),
+    date,
+    orderId,
+  }
+}
+
 // ─── JSON conversation helpers ────────────────────────────────────────────────
 
 function jsonConversations(date: string, search: string): Conversation[] {
@@ -34,21 +82,28 @@ function jsonConversations(date: string, search: string): Conversation[] {
 
   return filtered.map((s) => {
     const msgs = s.conversation
+    const direction = detectDirection(msgs[0]?.speaker ?? '')
+    const tdInfo = parseTestDriveConfirmation(msgs)
+
     return {
-      id:              s.session_id,
-      source:          'json' as const,
-      phone:           s.session_id,
-      customerName:    s.persona_name,
-      archetypeKey:    s.archetype_label,
-      archetype:       formatArchetype(s.archetype_label),
-      outcome:         s.outcome,
-      outcomeDetail:   s.outcome_detail,
-      keyObservations: s.key_observations ?? [],
-      timestamp:       s.timestamp,
-      messageCount:    msgs.length,
-      lastMessageText: msgs[msgs.length - 1]?.text ?? '',
-      firstMessageAt:  s.timestamp,
-      lastMessageAt:   s.timestamp,
+      id:                    s.session_id,
+      source:                'json' as const,
+      phone:                 s.session_id,
+      customerName:          s.persona_name,
+      archetypeKey:          s.archetype_label,
+      archetype:             formatArchetype(s.archetype_label),
+      outcome:               s.outcome,
+      outcomeDetail:         s.outcome_detail,
+      keyObservations:       s.key_observations ?? [],
+      direction,
+      testDriveConfirmed:    tdInfo.confirmed,
+      testDriveDate:         tdInfo.date,
+      testDriveOrderId:      tdInfo.orderId,
+      timestamp:             s.timestamp,
+      messageCount:          msgs.length,
+      lastMessageText:       msgs[msgs.length - 1]?.text ?? '',
+      firstMessageAt:        s.timestamp,
+      lastMessageAt:         s.timestamp,
     }
   })
 }
